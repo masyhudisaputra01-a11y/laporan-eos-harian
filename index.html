@@ -422,12 +422,30 @@
       text-align: center;
     }
 
+    .report-table td.col-img {
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    .foto-wrap {
+      display: inline-flex !important;
+      flex-direction: row !important;
+      flex-wrap: nowrap !important;
+      justify-content: center;
+      align-items: center;
+      gap: 4px;
+      white-space: nowrap;
+      width: max-content;
+      max-width: 100%;
+    }
+
     .report-table td.col-img img {
-      max-width: 100px;
-      max-height: 100px;
-      display: block;
-      margin: 0 auto;
-      border-radius: 2px;
+      width: 70px !important;
+      height: 70px !important;
+      object-fit: cover;
+      display: inline-block !important;
+      flex: 0 0 auto;
+      border-radius: 4px;
     }
 
     .sig-row {
@@ -546,6 +564,25 @@
 .sig-col:nth-child(2) {
   margin-left: -40px !important;
 }
+
+    .foto-wrap {
+      display: flex;
+      flex-direction: row;
+      flex-wrap: wrap;
+      justify-content: center;
+      align-items: center;
+      gap: 5px;
+      width: 100%;
+    }
+
+    .foto-wrap img {
+      width: 75px;
+      height: 75px;
+      object-fit: cover;
+      border-radius: 3px;
+      display: inline-block;
+    }
+
 </style>
 </head>
 <body>
@@ -667,16 +704,16 @@
           <div class="sig-box">
 <img id="prevSigImg" src="" alt="Tanda Tangan">
 </div>
-          <strong style="text-decoration: underline;">MASYHUDI</strong><br>
-          <span>Engineering On Site</span>
+          <strong style="text-decoration: underline;">MASYHUDI</strong>
+          <span style="display:block; line-height:1;">Engineering On Site</span>
         </div>
         <div class="sig-col">
           <strong>PT. TELKOM</strong><br>
           <div class="sig-box">
 <img id="prevSigImg2" src="" alt="Tanda Tangan Telkom">
 </div>
-          <strong style="text-decoration: underline;" id="prevNameTelkom">NELLA AGNES</strong><br>
-          <span>ACCOUNT MANAGER</span>
+          <strong style="text-decoration: underline;" id="prevNameTelkom">NELLA AGNES</strong>
+          <span style="line-height:1;">ACCOUNT MANAGER</span>
         </div>
       </div>
     </div>
@@ -922,9 +959,9 @@
         const tr = document.createElement("tr");
         let fotoContent = "-";
         if (Array.isArray(act.foto) && act.foto.length) {
-          fotoContent = act.foto.map(f => `<img src="${f}" alt="eviden">`).join("");
+          fotoContent = `<div class="foto-wrap">${act.foto.map(f => `<img src="${f}" alt="eviden">`).join("")}</div>`;
         } else if (act.foto && act.foto.length > 50) {
-          fotoContent = `<img src="${act.foto}" alt="eviden">`;
+          fotoContent = `<div class="foto-wrap"><img src="${act.foto}" alt="eviden"></div>`;
         }
 
         tr.innerHTML = `

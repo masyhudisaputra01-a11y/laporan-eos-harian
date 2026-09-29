@@ -785,6 +785,15 @@
 <button class="m-btn m-btn-outline" style="margin-top:10px;" onclick="resetDemoData()">
         ↺ Kembalikan Contoh Dokumen Asli
       </button>
+
+      <button class="m-btn m-btn-success" style="margin-top:10px;" onclick="backupToDrive()">
+        ☁️ Backup Data ke Google Drive
+      </button>
+
+      <label class="m-btn m-btn-primary" style="margin-top:10px;">
+        📥 Pulihkan Backup Data
+        <input type="file" accept="application/json" hidden onchange="restoreBackup(event)">
+      </label>
     </div>
 
     <!-- Petunjuk Android PWA -->
@@ -1265,6 +1274,37 @@ function saveTelkomName(){
   }
 }
 
+
+
+// ===== BACKUP GOOGLE DRIVE READY =====
+function backupToDrive(){
+ const backup={app:"EOS Polda Sulbar",date:new Date().toISOString(),data:{}};
+ for(let i=0;i<localStorage.length;i++){
+  let k=localStorage.key(i);
+  backup.data[k]=localStorage.getItem(k);
+ }
+ const blob=new Blob([JSON.stringify(backup,null,2)],{type:"application/json"});
+ const a=document.createElement("a");
+ a.href=URL.createObjectURL(blob);
+ a.download="EOS_Polda_Sulbar_Backup_"+new Date().toISOString().slice(0,10)+".json";
+ a.click();
+ alert("Backup berhasil dibuat. Simpan file ini ke Google Drive.");
+}
+
+function restoreBackup(e){
+ const file=e.target.files[0];
+ if(!file)return;
+ const reader=new FileReader();
+ reader.onload=function(){
+  try{
+   const backup=JSON.parse(reader.result);
+   Object.keys(backup.data).forEach(k=>localStorage.setItem(k,backup.data[k]));
+   alert("Backup berhasil dipulihkan");
+   location.reload();
+  }catch(err){alert("File backup tidak valid");}
+ };
+ reader.readAsText(file);
+}
 </script>
 <script>
 window.addEventListener('load', function(){
